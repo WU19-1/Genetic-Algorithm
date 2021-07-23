@@ -7,18 +7,18 @@ from collections import namedtuple
 
 Trait = typing.List[int]
 Population = typing.List[Trait]
-Item = namedtuple('Item', tuple(['name','weight','value']))
+Item = namedtuple('Item', tuple(['cpu_count','cpu_percent','mem_limit','mem_reservation']))
 FitnessFunction = typing.Callable[[Trait],int]
 PopulateFunction = typing.Callable[[], Population]
 SelectionFunction = typing.Callable[[Population, FitnessFunction],Population]
 CrossoverFunction = typing.Callable[[Trait, Trait], typing.Tuple[Trait, Trait]]
 MutationFunction = typing.Callable[[Trait, float], Trait]
 
-items = [
-    Item("Laptop A", 10, 60),
-    Item("Laptop B", 20, 100),
-    Item("Laptop C", 30, 120),
-]
+items = []
+
+for i in range(10):
+    item = Item(randint(1,4), randint(5,20), (str(randint(1,4)) + 'g'), randint(10,25))
+    items.append(item)
 
 def generate_traits(length: int) -> Trait:
     return choices([0,1],k=length)
@@ -28,7 +28,7 @@ def generate_population(size: int, trait_length: int) -> Population:
 
 def fitness(trait: Trait, items: [Item], limit: int) -> int:
     if len(trait) != len(items):
-        raise ValueError("You can't stole a non existant item! :)")
+        raise ValueError("There's no such configuration")
     
     weight = 0
     value = 0
@@ -52,7 +52,7 @@ def selection(population: Population, fitness_function: FitnessFunction) -> Popu
 
 def sp_crossover(first_parent: Trait, second_parent: Trait) -> typing.Tuple[Trait,Trait]:
     if len(first_parent) != len(second_parent):
-        raise ValueError("One of the solution has a non existant items")
+        raise ValueError("One of the solution has a non existant configurations")
     
     length = len(first_parent)
     if length < 2:
@@ -114,13 +114,13 @@ def trait_to_items(trait: Trait, items: [Item])-> [Item]:
 def main():
     population, generations = run(
         populate_function=partial(
-            generate_population, size=10, trait_length=len(items)
+            generate_population, size=4, trait_length=len(items)
         ),
         fitness_function=partial(
-            fitness, items=items, limit=50
+            fitness, items=items, limit=500
         ),
-        fitness_limit=220,
-        generation_limit=100
+        fitness_limit=500,
+        generation_limit=10
     )
 
     print("Number of generations:", generations)
@@ -128,4 +128,6 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    for i in items:
+        print(i)
+    

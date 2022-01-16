@@ -1,0 +1,18 @@
+
+=========================================================================
+StressTest version 1.0 by RX, WU, and WT.
+
+Started at 2021-12-10 11:22:23.792536.
+Finished at 2021-12-10 11:35:47.158965.
+
+StressTest for http://192.168.145.128:3000/ with a total of 80 connections (80 request/connection, timeout: 10 s).
+
+Average Response Time: 0.0 ms
+
+Status Code List:
++-------------+---------------+
+| Status Code | Total Request |
++-------------+---------------+
++-------------+---------------+
+=========================================================================
+    
